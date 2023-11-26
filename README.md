@@ -1,0 +1,2 @@
+# Robotic Platform for Fruit Harvesting
+Harvesting of fruits in the right stage is one of the problems faced by the farmers. The main aim of this project is to develop a Robotic Platform which can harvest the fruit at right time by using Embedded Image Processing Technique. This Robotic Platform consists of a Rover and a Robotic Arm which can be controlled from a remote location through a Web App. Through this project the overall efficiency of agricultural production can be improved.
