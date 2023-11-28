@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rover Control</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        var keys = {w: false, a: false, s: false, d: false};
+        var repeatCommand;
+        $(document).keydown(function(e){
+            if (e.key in keys) {
+                // Ignore the command if it contradicts a currently active command
+                if ((e.key == 'w' && keys['s']) || (e.key == 's' && keys['w']) || (e.key == 'a' && keys['d']) || (e.key == 'd' && keys['a'])) {
+                    return;
+                }
+                keys[e.key] = true;
+                clearInterval(repeatCommand);
+                repeatCommand = setInterval(function(){
+                    for (var key in keys) {
+                        if (keys[key]) {
+                            $.post('/move', {command: key});
+                        }
+                    }
+                }, 100);
+            }
+        }).keyup(function(e){
+            if (e.key in keys) {
+                keys[e.key] = false;
+                if (!Object.values(keys).some(function(v){ return v; })) {
+                    clearInterval(repeatCommand);
+                    $.post('/move', {command: 'stop'});
+                }
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <button value="w">Forward</button>
+    <button value="s">Backward</button>
+    <button value="a">Left</button>
+    <button value="d">Right</button>
+</body>
+</html>

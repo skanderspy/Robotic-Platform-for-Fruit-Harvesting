@@ -23,14 +23,10 @@ try:
         command = input("Enter command: ")
         if command == 'up':
             # Move the arm up
-            servos['arm'].ChangeDutyCycle(2)
-            time.sleep(0.5)
-            servos['arm'].ChangeDutyCycle(0)
+            set_angle(servos['arm'], 90)
         elif command == 'down':
             # Move the arm down
-            servos['arm'].ChangeDutyCycle(12)
-            time.sleep(0.5)
-            servos['arm'].ChangeDutyCycle(0)
+            set_angle(servos['arm'], 0)
         # Add similar elif conditions for other commands and joints
         # ...
         elif command == 'exit':
@@ -41,3 +37,11 @@ try:
 finally:
     # Cleanup the GPIO on exit
     GPIO.cleanup()
+
+def set_angle(servo, angle):
+    duty = angle / 18 + 2
+    GPIO.output(servo_pins[servo], True)
+    servo.ChangeDutyCycle(duty)
+    time.sleep(1)
+    servo.ChangeDutyCycle(0)
+    GPIO.output(servo_pins[servo], False)
