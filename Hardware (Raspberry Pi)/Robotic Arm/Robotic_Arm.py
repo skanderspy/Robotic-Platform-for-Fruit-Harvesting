@@ -45,4 +45,3 @@ def set_angle(servo, angle):
     time.sleep(1)
     servo.ChangeDutyCycle(0)
     GPIO.output(servo_pins[servo], False)
-m
