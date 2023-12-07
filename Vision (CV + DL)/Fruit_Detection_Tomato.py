@@ -31,6 +31,12 @@ while True:
             x1, y1, x2, y2 = box.xyxy[0]
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
+            # Calculate the center of the bounding box (x, y)
+            x_center = (x1 + x2) / 2
+            y_center = (y1 + y2) / 2
+
+            print(f"Tomato coordinates: ({x_center}, {y_center})")
+
             # Confidence
             confidence = math.ceil((box.conf[0] * 100)) / 100
 
@@ -52,6 +58,7 @@ while True:
             cv2.putText(img, classNames[cls], org, font, fontScale, color, thickness)
             cv2.putText(img, f"Confidence: {confidence}", (x1, y1 - 30), font, 0.5, color, thickness)
             cv2.putText(img, f"Distance: {object_distance_cm:.2f} cm", (x1, y1 - 60), font, 0.5, color, thickness)
+            cv2.putText(img, f"Tomato coordinates: ({x_center}, {y_center})", (x1, y1 - 90), font, 0.5, color, thickness)
 
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) == ord('q'):
