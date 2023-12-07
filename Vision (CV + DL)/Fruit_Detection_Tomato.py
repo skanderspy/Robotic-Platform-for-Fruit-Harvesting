@@ -1,6 +1,7 @@
 from ultralytics import YOLO
 import cv2
 import math
+import numpy as np
 
 # Start webcam
 cap = cv2.VideoCapture(0)
@@ -8,7 +9,7 @@ cap.set(3, 640)
 cap.set(4, 480)
 
 # Model
-model = YOLO("tomato.pt")
+model = YOLO("C:/Users/vardh/Documents/CCE notes/Semester 7/Final Year Project/Fruit Harvester/Code Files/Vision (CV + DL)/tomato.pt")
 
 # Object classes
 classNames = ['ripe tomato', 'unripe tomato']
@@ -21,10 +22,15 @@ while True:
     success, img = cap.read()
     results = model(img, stream=True)
 
+    _,white_frame= cap.read()
+    white_frame = cv2.resize(white_frame,(640,480))
+    white_hsv = cv2.cvtColor(white_frame, cv2.COLOR_BGR2HSV)
+    
+    results = model(white_frame, stream=True)
+
     # Coordinates
     for r in results:
         boxes = r.boxes
-
 
         for box in boxes:
             # Bounding box
@@ -46,6 +52,24 @@ while True:
             # Calculate object distance
             object_width_pixels = x2 - x1
             object_distance_cm = ((known_object_width * focal_length) / object_width_pixels) - 35
+
+            # Masking
+            lower_white = np.array([0,0,87])
+            upper_white = np.array([179,52,255])
+
+            white_mask = cv2.inRange(white_hsv, lower_white, upper_white)            
+            white_res = cv2.bitwise_and(white_frame,white_frame, mask= white_mask)
+            
+            # Find the contours of base
+            white_contours, white_hierarchy = cv2.findContours(white_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+            
+            for white_c in white_contours:
+                
+                white_area = cv2.contourArea(white_c)  ### Get area of the contour detected
+                
+                if white_area>50000:          ## Setting the threshold for base area                      
+                    cv2.drawContours(white_frame, white_c, -1, (0, 255, 0), 5)  ## Draw contours of base 
+
 
             # Object details
             org = [x1, y1]
