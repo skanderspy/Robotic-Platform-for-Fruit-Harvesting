@@ -14,6 +14,14 @@ for pin in servo_pins.values():
 # Create a dictionary to store the PWM objects
 servos = {joint: GPIO.PWM(pin, 50) for joint, pin in servo_pins.items()}
 
+def set_angle(servo, angle):
+    duty = angle / 18 + 2
+    GPIO.output(servo_pins[servo], True)
+    servo.ChangeDutyCycle(duty)
+    time.sleep(1)
+    servo.ChangeDutyCycle(0)
+    GPIO.output(servo_pins[servo], False)
+
 # Start PWM on all servos
 for servo in servos.values():
     servo.start(0)
@@ -37,11 +45,3 @@ try:
 finally:
     # Cleanup the GPIO on exit
     GPIO.cleanup()
-
-def set_angle(servo, angle):
-    duty = angle / 18 + 2
-    GPIO.output(servo_pins[servo], True)
-    servo.ChangeDutyCycle(duty)
-    time.sleep(1)
-    servo.ChangeDutyCycle(0)
-    GPIO.output(servo_pins[servo], False)
