@@ -9,7 +9,7 @@ cap.set(3, 640)
 cap.set(4, 480)
 
 # Model
-model = YOLO("C:/Users/vardh/Documents/CCE notes/Semester 7/Final Year Project/Fruit Harvester/Code Files/Vision (CV + DL)/tomato.pt")
+model = YOLO("tomato.pt")
 
 # Object classes
 classNames = ['ripe tomato', 'unripe tomato']
