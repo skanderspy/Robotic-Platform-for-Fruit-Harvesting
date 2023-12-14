@@ -9,7 +9,7 @@ cap.set(3, 640)
 cap.set(4, 480)
 
 # Model
-model = YOLO("tomato.pt")
+model = YOLO("/home/student/Documents/ECE-030 - Final Year Project/Robotic-Platform-for-Fruit-Harvesting/Vision (CV + DL)/tomato.pt")
 
 # Object classes
 classNames = ['ripe tomato', 'unripe tomato']
@@ -81,7 +81,7 @@ while True:
             cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 255), 3)
             cv2.putText(img, classNames[cls], org, font, fontScale, color, thickness)
             cv2.putText(img, f"Confidence: {confidence}", (x1, y1 - 30), font, 0.5, color, thickness)
-            cv2.putText(img, f"Distance: {object_distance_cm:.2f} cm", (x1, y1 - 60), font, 0.5, color, thickness)
+            cv2.putText(img, f"Distance: {object_dtomato.ptistance_cm:.2f} cm", (x1, y1 - 60), font, 0.5, color, thickness)
             cv2.putText(img, f"Tomato coordinates: ({x_center}, {y_center})", (x1, y1 - 90), font, 0.5, color, thickness)
 
     cv2.imshow('Webcam', img)
