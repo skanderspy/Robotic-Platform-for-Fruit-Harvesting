@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Robotic Arm Control</h2>
+    <button class="button" onmousedown="sendCommand('arm_up')" onmouseup="sendCommand('stop')">Arm Up</button>
+    <button class="button" onmousedown="sendCommand('arm_down')" onmouseup="sendCommand('stop')">Arm Down</button>
+    <button class="button" onmousedown="sendCommand('shoulder_up')" onmouseup="sendCommand('stop')">Shoulder Up</button>
+    <button class="button" onmousedown="sendCommand('shoulder_down')" onmouseup="sendCommand('stop')">Shoulder Down</button>
+    <button class="button" onmousedown="sendCommand('elbow_up')" onmouseup="sendCommand('stop')">Elbow Up</button>
+    <button class="button" onmousedown="sendCommand('elbow_down')" onmouseup="sendCommand('stop')">Elbow Down</button>
+    <button class="button" onmousedown="sendCommand('wrist_up')" onmouseup="sendCommand('stop')">Wrist Up</button>
+    <button class="button" onmousedown="sendCommand('wrist_down')" onmouseup="sendCommand('stop')">Wrist Down</button>
+    <button class="button" onmousedown="sendCommand('gripper_open')" onmouseup="sendCommand('stop')">Gripper Open</button>
+    <button class="button" onmousedown="sendCommand('gripper_close')" onmouseup="sendCommand('stop')">Gripper Close</button>
+    <script>
+        function sendCommand(command) {
+            fetch('http://your_server_address/commands', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command }),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
